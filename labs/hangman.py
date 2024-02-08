@@ -23,3 +23,49 @@
 # Display a winning message and the full word if they win
 
 # Display a losing message and quit the game if they don't make it
+
+
+count = 8
+word = "hangman"
+word = word.lower()
+correct_guess = ""
+guess = None
+
+name = input("What is your name?: ")
+print(f"Welcome to my game of hangman, {name}! Try to guess what the secret word is.  You can only guess incorrectly {count} times!")
+
+print("The secret word is:")
+len_word = len(word)
+print(word.replace(word, "_ " * len_word))
+
+while True:
+    if count == 0:
+        print("You are out of guesses. Game over!")
+        break
+    guess = input("Guess a letter: ")
+    guess = guess.lower()
+    if len(guess) != 1:
+        print("please only guess one letter") 
+        continue
+    
+    if guess in correct_guess:
+        print("You have already guessed this letter!")
+        continue
+
+    if guess in word:
+        amount = word.count(guess)
+        correct_guess += guess * amount
+    
+    else:
+        count -= 1
+        print(f"nope, sorry! that is not one of the letters guess again.  You have {count} tries remaining.")
+
+    for char in word:
+        if char in correct_guess:
+            print(char, end= " ")
+        else:
+            print("_", end= " ")
+
+    if len(correct_guess) == len(word):
+        print("Congratulations! You guessed the word before you ran out of tries! You Win!")
+        break
