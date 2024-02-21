@@ -30,6 +30,7 @@ word = "hangman"
 word = word.lower()
 correct_guess = ""
 guess = None
+final = True
 
 name = input("What is your name?: ")
 print(f"Welcome to my game of hangman, {name}! Try to guess what the secret word is.  You can only guess incorrectly {count} times!")
@@ -53,19 +54,21 @@ while True:
         continue
 
     if guess in word:
-        amount = word.count(guess)
-        correct_guess += guess * amount
-    
+    #    amount = word.count(guess)
+    #    correct_guess += guess * amount
+        correct_guess += guess
     else:
         count -= 1
         print(f"nope, sorry! that is not one of the letters guess again.  You have {count} tries remaining.")
-
+    final = True
     for char in word:
         if char in correct_guess:
             print(char, end= " ")
         else:
+            final = False
             print("_", end= " ")
 
-    if len(correct_guess) == len(word):
+    
+    if final:
         print("Congratulations! You guessed the word before you ran out of tries! You Win!")
         break
