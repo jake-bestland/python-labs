@@ -70,10 +70,10 @@ walls.append([starting_height, starting_width-1])
 walls.append([starting_height, starting_width+1])
 walls.append([starting_height+1, starting_width])
 
-maze[starting_height-1][starting_width] = 'w'
-maze[starting_height][starting_width-1] = 'w'
-maze[starting_height][starting_width+1] = 'w'
-maze[starting_height+1][starting_width] = 'w'
+maze[starting_height-1][starting_width] = wall
+maze[starting_height][starting_width-1] = wall
+maze[starting_height][starting_width+1] = wall
+maze[starting_height+1][starting_width] = wall
 
 while walls:
     rand_wall = walls[int(random.random()*len(walls))-1]
