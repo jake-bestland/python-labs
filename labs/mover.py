@@ -21,3 +21,13 @@ for filepath in desktop.iterdir():
 
 # Move the screenshot there
         filepath.replace(new_filepath)
+
+
+#added a counter of the files on Desktop
+desk_files = []
+
+for filepath in desktop.iterdir():
+    desk_files.append(filepath.suffix)
+
+desk_dict = {x: desk_files.count(x) for x in desk_files}
+print(desk_dict)
