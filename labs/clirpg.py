@@ -22,18 +22,20 @@
 
 import random
 
-
+def battle()
 
 
 path = "Which door will you choose? The left, the middle, or the right?: "
 left_door = "You see an empty room."
 right_door = "You've encountered a dragon!"
-mid_door = "You see an empty room, with footprints leading down a dark hallway."
+mid_door = "You see a dining room, and at the far end of the room, you see footprints leading down a dark hallway."
 inp_opt = "Do you want to return, or keep going?: "
+take_leav_inp = "take it or leave it?: "
 dead_end = "Head back to the begining and go through another door."
 win = "congratulations!! You slayed the dragon and won the game!"
 lose = "Oh no!! the dragon was too powerful and ate you!  Game Over."
 sword = True
+key = True
 inventory = [] #inventory.clear() - if killed by dragon
 
 
@@ -54,7 +56,7 @@ while True:
                 continue
             elif look == "yes":
                 print("You found a sword!")
-                take = input("take it or leave it?: ").lower()
+                take = input(take_leav_inp).lower()
                 if take == "take it" or take == "yes":
                     print("You now have a weapon to protect yourself!")
                     print(dead_end)
@@ -94,5 +96,24 @@ while True:
     elif choose == "middle" or choose == "the middle":
         print(mid_door)
         m_option = input(inp_opt).lower()
+        if m_option == "return":
+            continue
+        elif m_option == "keep going" or m_option == "go on" or m_option == "follow":
+            ###while loop?###
+            if key not in inventory:
+                print("As you enter the room, you notice on the table there is a small, rusty key")
+                key_opt = input(take_leav_inp).lower()
+                if key_opt== "take it" or key_opt == "yes":
+                    inventory.append(key)
+                    print("You now have a rusty key")
+                elif key_opt == "leave it" or key_opt == "no":
+                    print("It's probably nothing.")
+                else:
+                    print("Please choose, take it or leave it.")
+            elif key in inventory:
+                print("You start to follow the footsteps down the dark hallway")
+                follow = input()
+        else:
+            print("please choose, return or keep going.")
     else:
         print("please choose left or right")
