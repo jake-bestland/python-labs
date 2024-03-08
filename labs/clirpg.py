@@ -23,10 +23,13 @@
 import random
 
 def battle(weapon, opponent):
+    if random.randint(weapon) >= opponent:
+        return f"You win!"
+    else:
+        return f"You Lost!"
 
-## make a "yes"/postivite/affirmative type var. of a set of possible input options to check against user input.##
-## same with "no"/negative/return/go back ##
-pos_inp = {"yes", "keep going", "go on", "continue", "take", "take it", "follow", "ok", "okay", "sure"}
+
+pos_inp = {"yes", "keep going", "go on", "continue", "take", "take it", "follow", "ok", "okay", "sure", "fight"}
 neg_inp = {"no", "go back", "return", "nope", "leave it", "leave", "run away", "run"}
 path = "Which door will you choose? The left, the middle, or the right?: "
 left_door = "You see an empty room."
@@ -37,7 +40,7 @@ take_leav_inp = "take it or leave it?: "
 dead_end = "Head back to the begining and go through another door."
 win = "congratulations!! You slayed the dragon and won the game!"
 lose = "Oh no!! the dragon was too powerful and ate you!  Game Over."
-sword = True
+sword = range(4, 8)
 key = True
 inventory = [] #inventory.clear() - if killed by dragon
 
@@ -47,7 +50,7 @@ evil_knight = 5
 
 
 name = input("What is your name?: ")
-print(f"Hello {name}, welcome to the game world!")
+print(f"Hello {name.capitalize()}, welcome to the game world!")
 while True:
     print("You see three doors.")
     choose = input(path).lower()
