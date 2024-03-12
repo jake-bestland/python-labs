@@ -30,10 +30,8 @@ def battle(weapon, opponent):
         return f"You Lost!" #Defeat = True? clear inventory?
 
 
-pos_inp = {"yes", "keep going", "go on", "continue", "take", "take it", "follow", "ok", "okay", "sure", "fight", "y"}
+pos_inp = {"yes", "keep going", "go on", "continue", "take", "take it", "follow", "ok", "okay", "sure", "fight", "y", "look", "look around"}
 neg_inp = {"no", "go back", "return", "nope", "leave it", "leave", "run away", "run", "head back", "back", "lobby", "n"}
-path = "Which door will you choose? The left, the middle, or the right?: "
-inp_opt = "Do you want to head back to the lobby, or keep going?: "
 take_leav_inp = "take it or leave it?: "
 dead_end = "Head back to the lobby and go through another door."
 win = "congratulations!! You slayed the dragon and won the game!"
@@ -45,8 +43,9 @@ key = "rusty key"
 no_key = "no key"
 vic_token = "victory"
 loss_token = "defeat"
-hero = "hero"
-inventory = [] #inventory.clear() - if killed by dragon
+hero = False
+l_path = False
+inventory = []
 inventory.append(hands)
 dragon = 10
 evil_knight = 5
@@ -55,81 +54,64 @@ evil_knight = 5
 
 name = input("What is your name?: ")
 print(f"Hello {name.capitalize()}, welcome to the game world!")
-while True:
-    if hero in inventory:
-        break
+while hero == False:
     if loss_token in inventory:
         inventory.remove(loss_token)
     print("You're in the lobby and you see three doors.")
-    choose = input(path).lower()
-    if choose == "left":
+    path = input("Which door will you choose? The left, the middle, or the right?: ").lower()
+    
+    if path == "left" or path == "the left":
         print("You have entered a seemingly empty room.")
-        l_option = input(inp_opt).lower()
-        if l_option in neg_inp:
-            continue
-        elif l_option in pos_inp:
-            while True:
-                look = input("Do you wish to look around the seemingly empty room?: ").lower()
-                if look in neg_inp:
-                    print(dead_end)
-                    break
-                    # continue
-                elif look in pos_inp:
-                    print("You found a sword!")
-                    while True:
-                        take = input(take_leav_inp).lower()
-                        if take in pos_inp:
-                            print("You now have a weapon to protect yourself!")
-                            print(dead_end)
-                            inventory.remove(inventory[0])
-                            inventory.insert(0, sword)   ### add write/append file for inventory update
-                            break
-                        elif take in neg_inp:
-                            print("You don't need any weapons for protection!")
-                            print(dead_end)
-                            break
-                        else:
-                            print("Please choose, take it or leave it.")
-                            continue
-                else:
-                    print("Please choose, yes or no.")
-                    continue
-        else:
-            print("please choose, return or keep going.")
-            continue
+        while l_path == False:
+            l_option = input("Do you want to look around, or head back to the lobby?").lower()
+            if l_option in neg_inp:
+                continue
+            elif l_option in pos_inp:
+                print("You found a sword!")
+                while True:
+                    take = input(take_leav_inp).lower()
+                    if take in pos_inp:
+                        print("You now have a weapon to protect yourself!")
+                        print(dead_end)
+                        inventory.remove(inventory[0])
+                        inventory.insert(0, sword)   ### add write/append file for inventory update
+                        l_path = True
+                        break
+                    elif take in neg_inp:
+                        print("You don't need any weapons for protection!")
+                        print(dead_end)
+                        ####l_path = True???### not having l_path = True allows them to go back and get the sword.
+                        break
+                    else:
+                        print("Please choose, take it or leave it.")
+                        continue
+            else:
+                print("Please choose, 'yes' to look around or 'no' to head back.")
+                continue   
     
-    
-    elif choose == "right":
+    elif path == "right" or path == "the right":
         print("You've encountered a dragon!")
-        r_option = input(inp_opt).lower()
-        if r_option in neg_inp:
-            continue
-        elif r_option in pos_inp:
-            while True:
-                fight_drag = input("Do you want to fight the dragon?: ").lower()
-                if fight_drag in neg_inp:
-                    print(dead_end)
+        while True:
+            r_option = input("Do you want to fight the dragon, or run away!? ").lower()
+            if r_option in neg_inp:
+                continue
+            elif r_option in pos_inp:
+                if battle(inventory[0], dragon) == "You win!":
+                    print(win)
+                    hero == True
                     break
-                elif fight_drag in pos_inp:
-                    if battle(inventory[0], dragon) == "You win!":
-                        print(win)
-                        inventory.append(hero)
-                        break
-                    if battle(inventory[0], dragon) == "You Lost!":
-                        inventory.clear()
-                        print(lose)
-                        break
-                else:
-                    print("Please choose, yes or no.")
-                    continue
-        else:
-            print("please choose, return or keep going.")
-            continue
+                if battle(inventory[0], dragon) == "You Lost!":
+                    inventory.clear()
+                    print(lose)
+                    break
+            else:
+                print("please choose, fight or run.")
+                continue
     
     
-    elif choose == "middle" or choose == "the middle" or choose == "mid":
+    elif path == "middle" or path == "the middle" or path == "mid":
         print("You enter a dining room, and at the far end of the room, you see footprints leading down a dark hallway.")
-        m_option = input(inp_opt).lower()
+        m_option = input("Do you want to head back to the lobby, or keep going?: ").lower()
         if m_option in neg_inp:
             continue
         elif m_option in pos_inp:
@@ -208,8 +190,6 @@ while True:
                         else:
                             print("Please choose, yes or no.")
                             continue
-
-
         else:
             print("please choose, return or keep going.")
             continue
