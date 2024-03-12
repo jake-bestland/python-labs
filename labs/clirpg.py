@@ -27,9 +27,9 @@ def battle(weapon_range: dict[str, range], opponent: int) -> str:
         damage = random.choice(dmg)
     
     if damage >= opponent:
-        return f"You win!" #Victory = True?
+        return f"You win!"
     else:
-        return f"You Lost!" #Defeat = True? clear inventory?
+        return f"You Lost!"
 
 chk_inv = {"check inventory", "check inv", "inv", "inventory", "i", "check i"}
 chk_wpn = {"check weapon", "check w", "weapon", "w"}
@@ -40,16 +40,13 @@ dead_end = f"You head back to the lobby to continue on your adventure.\n"
 win = "congratulations!! You won the game!"
 lose = "Oh no!! the dragon was too powerful and ate you!  Game Over."
 hands = {"hands": range(1, 2)}
-sword = {"sword": range(4, 10)}
+sword = {"dull sword": range(4, 10)}
 val_sword = {"valyrian steel sword": range(9, 13)}
 key = "rusty key"
-no_key = "no key"
-bat_token = False
 hero = False
 l_path = False
-armory = False
 cur_weapon = {}
-inventory = []  ### maybe add weapon inventory(dict) / item inventory.
+inventory = []
 cur_weapon.update(hands)
 dragon = 10
 evil_knight = 5
@@ -58,8 +55,6 @@ evil_knight = 5
 name = input("What is your name?: ")
 print(f"Hello {name.capitalize()}, welcome to the game world!\nYou must defeat the dragon to win the game! The dragon is strong, so try and find a weapon to defeat it!\nYou can check your inventory or current weapon by entering 'i' or 'w' at any time.\n")
 while hero == False:
-    if bat_token == True:
-        bat_token = False
     print("You're in the lobby and you see three doors.")
     path = input(f"Which door will you choose? The left, the middle, or the right?:\n").lower()
     if path in chk_inv:
@@ -67,8 +62,9 @@ while hero == False:
     if path in chk_wpn:
         print(cur_weapon)
     if path == "left" or path == "the left":
-        if l_path == True:
+        if cur_weapon == sword:
             print(f"You have already checked behind this door. Please choose a different door.\n")
+            continue
         print("You have entered a seemingly empty room.")
         while l_path == False:
             l_option = input(f"Do you want to look around, or head back to the lobby?\n").lower()
@@ -77,26 +73,29 @@ while hero == False:
             if l_option in chk_wpn:
                 print(cur_weapon)
             if l_option in neg_inp:
-                continue
+                break
             elif l_option in pos_inp:
-                print("You found a sword!")
+                print("You found a dull sword!")
                 while True:
+                    if cur_weapon == val_sword:
+                        print("Would you like to replace your current weapon with this one?")
                     take = input(take_leav_inp).lower()
                     if take in chk_inv:
                         print(inventory)
                     if take in chk_wpn:
                         print(cur_weapon)
                     if take in pos_inp:
-                        print("You now have a weapon to protect yourself!")
+                        print("You now have a dull sword to protect yourself!")
                         print(dead_end)
                         cur_weapon.clear()
                         cur_weapon.update(sword)
                         l_path = True
                         break
                     elif take in neg_inp:
-                        print("You don't need any weapons for protection!")
+                        print("You decide that you don't need this sword.")
                         print(dead_end)
-                        ####l_path = True???### not having l_path = True allows them to go back and get the sword.
+                        if cur_weapon == val_sword:
+                            l_path = True
                         break
                     else:
                         print("Please choose, take it or leave it.")
@@ -132,6 +131,12 @@ while hero == False:
     
     
     elif path == "middle" or path == "the middle" or path == "mid":
+        if cur_weapon == val_sword:
+            print(f"You have already checked behind this door. Please choose a different door.\n")
+            continue
+        bat_token = False
+        no_key = False
+        armory = False
         print("You enter a dining room, and at the far end of the room, you see footprints leading down a dark hallway.")
         m_option = input(f"Do you want to head back to the lobby, or keep going?:\n").lower()
         if m_option in chk_inv:
@@ -142,7 +147,7 @@ while hero == False:
             continue
         elif m_option in pos_inp:
             while bat_token == False:
-                if key not in inventory and no_key not in inventory:
+                if key not in inventory and no_key == False:
                     print("As you enter the room, you notice that there is a small rusty key on the table")
                     key_opt = input(take_leav_inp).lower()
                     if key_opt in chk_inv:
@@ -150,16 +155,16 @@ while hero == False:
                     if key_opt in chk_wpn:
                         print(cur_weapon)
                     if key_opt in pos_inp:
-                        inventory.append(key)  ##add note to inventory file
+                        inventory.append(key)
                         print("You now have a rusty key.")
                         continue
                     elif key_opt in neg_inp:
-                        print("It's probably nothing.")  ##add no_key to inventory?
-                        inventory.append(no_key)  ##add note to inventory file
+                        print("It's probably nothing.")
+                        no_key = True
                         continue
                     else:
                         print("Please choose, take it or leave it.")
-                elif no_key in inventory:
+                elif no_key == True:
                     print("You continue down the hallway and it lead you to a dungeon, where you come across an evil knight!")
                     while True:
                         fight_knight = input(f"Fight the knight or run away!?\n").lower()
@@ -204,7 +209,7 @@ while hero == False:
                         if lock_door_inp in chk_wpn:
                             print(cur_weapon)
                         if lock_door_inp in neg_inp:
-                            inventory.append(no_key)
+                            no_key = True
                             break
                         elif lock_door_inp in pos_inp:
                             print("You have come across an old armory!  It is mostly empty, but there is a valyrian steel sword hanging on the wall! ")
@@ -216,13 +221,14 @@ while hero == False:
                                     print(cur_weapon)
                                 if armory_inp in neg_inp:
                                     print("This sword is too heavy anyway.")
-                                    inventory.append(no_key)
+                                    no_key = True
+                                    armory = True
                                     break
                                 elif armory_inp in pos_inp:
                                     print("You now have a valyrian steel sword in your inventory.")
                                     cur_weapon.clear()
                                     cur_weapon.update(val_sword)
-                                    inventory.append(no_key)
+                                    no_key = True
                                     armory = True
                                     break
                                 else:
