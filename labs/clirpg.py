@@ -114,6 +114,7 @@ while game_over == False:
             if r_option in chk_wpn:
                 print(cur_weapon)
             if r_option in neg_inp:
+                print("You were able to safely escape the dragon and made your way back to the lobby!")
                 break
             elif r_option in pos_inp:
                 if battle(cur_weapon, dragon) == "You win!":
@@ -140,6 +141,7 @@ while game_over == False:
         bat_token = False
         no_key = False
         armory = False
+        unlock = False
         print("You enter a dining room, and at the far end of the room, you see footprints leading down a dark hallway.")
         m_option = input(f"Do you want to head back to the lobby, or keep going?:\n").lower()
         if m_option in chk_inv:
@@ -167,9 +169,9 @@ while game_over == False:
                         continue
                     else:
                         print("Please choose, take it or leave it.")
-                elif no_key == True:
-                    print("You continue down the hallway and it lead you to a dungeon, where you come across an evil knight!")
-                    while True:
+                elif key in inventory or no_key == True:
+                    print("You continue down the dark hallway and come across an evil knight, guarding a door!!")
+                    while armory == False:
                         fight_knight = input(f"Fight the knight or run away!?\n").lower()
                         if fight_knight in chk_inv:
                             print(inventory)
@@ -178,11 +180,50 @@ while game_over == False:
                         if fight_knight in neg_inp:
                             print("You try to run away, but he's too quick! You have no choice but to fight.")
                             if battle(cur_weapon, evil_knight) == "You win!":
-                                print(f"You defeated the evil knight! Head back to the lobby to continue your adventure!\n")  ##add armor/shield? new weaopn?
+                                print(f"You defeated the evil knight! You go over and check the door that they were guarding.\n")
                                 bat_token = True
-                                break
+                                while unlock == False:
+                                    lock_door_inp = input(f"The door the evil knight was guarding is locked. Do you want to try the rusty key to see if it will open it? Or go back to the lobby?\n").lower()
+                                    if lock_door_inp in chk_inv:
+                                        print(inventory)
+                                    if lock_door_inp in chk_wpn:
+                                        print(cur_weapon)
+                                    if lock_door_inp in neg_inp:
+                                        armory = True
+                                        break
+                                    elif lock_door_inp in pos_inp:
+                                        if key not in inventory:
+                                            print("You do not have a key to unlock the door. Head back and try to find the key.")
+                                            armory = True
+                                            break
+                                        if key in inventory:
+                                            print("You have come across an old armory!  It is mostly empty, but there is a valyrian steel sword hanging on the wall! ")
+                                            while True:
+                                                armory_inp = input(f"Do you want to take this weapon?\n").lower()
+                                                if armory_inp in chk_inv:
+                                                    print(inventory)
+                                                if armory_inp in chk_wpn:
+                                                    print(cur_weapon)
+                                                if armory_inp in neg_inp:
+                                                    print(f"This sword is too heavy anyway. Head back to the lobby to continue your adventure!\n")
+                                                    unlock = True
+                                                    armory = True
+                                                    break
+                                                elif armory_inp in pos_inp:
+                                                    print(f"You now have a valyrian steel sword in your inventory. Head back to the lobby to continue your adventure!\n")
+                                                    cur_weapon.clear()
+                                                    cur_weapon.update(val_sword)
+                                                    unlock = True
+                                                    armory = True
+                                                    break
+                                                else:
+                                                    print("Please choose, yes or no.")
+                                                    continue
+                                    else:
+                                        print("Please choose, yes or no.")
+                                        continue
                             if battle(cur_weapon, evil_knight) == "You Lost!":
-                                print(f"You were defeated by the evil knight!\n")
+                                print(f"You were defeated by the evil knight! He took everything you had! head back to the lobby.\n")
                                 inventory.clear()
                                 cur_weapon.clear()
                                 cur_weapon.update(hands)
@@ -190,11 +231,50 @@ while game_over == False:
                                 break
                         if fight_knight in pos_inp:
                             if battle(cur_weapon, evil_knight) == "You win!":
-                                print(f"You defeated the evil knight! Head back to the lobby to continue your adventure!\n")  ##add armor/shield? new weaopn?
+                                print(f"You defeated the evil knight! You go over and check the door that they were guarding.\n")
                                 bat_token = True
-                                break
+                                while unlock == False:
+                                    lock_door_inp = input(f"The door the evil knight was guarding is locked. Do you want to try the rusty key to see if it will open it? Or go back to the lobby?\n").lower()
+                                    if lock_door_inp in chk_inv:
+                                        print(inventory)
+                                    if lock_door_inp in chk_wpn:
+                                        print(cur_weapon)
+                                    if lock_door_inp in neg_inp:
+                                        armory = True
+                                        break
+                                    elif lock_door_inp in pos_inp:
+                                        if key not in inventory:
+                                            print("You do not have a key to unlock the door. Head back and try to find the key.")
+                                            armory = True
+                                            break
+                                        if key in inventory:
+                                            print("You have come across an old armory!  It is mostly empty, but there is a valyrian steel sword hanging on the wall! ")
+                                            while True:
+                                                armory_inp = input(f"Do you want to take this weapon?\n").lower()
+                                                if armory_inp in chk_inv:
+                                                    print(inventory)
+                                                if armory_inp in chk_wpn:
+                                                    print(cur_weapon)
+                                                if armory_inp in neg_inp:
+                                                    print(f"This sword is too heavy anyway. Head back to the lobby to continue your adventure!\n")
+                                                    unlock = True
+                                                    armory = True
+                                                    break
+                                                elif armory_inp in pos_inp:
+                                                    print(f"You now have a valyrian steel sword in your inventory. Head back to the lobby to continue your adventure!\n")
+                                                    cur_weapon.clear()
+                                                    cur_weapon.update(val_sword)
+                                                    unlock = True
+                                                    armory = True
+                                                    break
+                                                else:
+                                                    print("Please choose, yes or no.")
+                                                    continue
+                                    else:
+                                        print("Please choose, yes or no.")
+                                        continue
                             if battle(cur_weapon, evil_knight) == "You Lost!":
-                                print(f"You were defeated by the evil knight!\n")
+                                print(f"You were defeated by the evil knight! He took everything you had! head back to the lobby.\n")
                                 inventory.clear()
                                 cur_weapon.clear()
                                 cur_weapon.update(hands)
@@ -203,43 +283,81 @@ while game_over == False:
                         else:
                             print("Please choose, fight or run.")
                             continue
-                elif key in inventory:
-                    print("You continue on and start to follow the footprints down the dark hallway.")
-                    while armory == False:
-                        lock_door_inp = input(f"You come across a locked door. Do you want to try the rusty key to see if it will open it? Or go back to the hallway?\n").lower()
-                        if lock_door_inp in chk_inv:
-                            print(inventory)
-                        if lock_door_inp in chk_wpn:
-                            print(cur_weapon)
-                        if lock_door_inp in neg_inp:
-                            no_key = True
-                            break
-                        elif lock_door_inp in pos_inp:
-                            print("You have come across an old armory!  It is mostly empty, but there is a valyrian steel sword hanging on the wall! ")
-                            while True:
-                                armory_inp = input(f"Do you want to take this weapon?\n").lower()
-                                if armory_inp in chk_inv:
-                                    print(inventory)
-                                if armory_inp in chk_wpn:
-                                    print(cur_weapon)
-                                if armory_inp in neg_inp:
-                                    print("This sword is too heavy anyway.")
-                                    no_key = True
-                                    armory = True
-                                    break
-                                elif armory_inp in pos_inp:
-                                    print("You now have a valyrian steel sword in your inventory.")
-                                    cur_weapon.clear()
-                                    cur_weapon.update(val_sword)
-                                    no_key = True
-                                    armory = True
-                                    break
-                                else:
-                                    print("Please choose, yes or no.")
-                                    continue
-                        else:
-                            print("Please choose, yes or no.")
-                            continue
+                
+                
+                # elif no_key == True:
+                #     print("You continue down the hallway and it lead you to a dungeon, where you come across an evil knight!")
+                #     while True:
+                #         fight_knight = input(f"Fight the knight or run away!?\n").lower()
+                #         if fight_knight in chk_inv:
+                #             print(inventory)
+                #         if fight_knight in chk_wpn:
+                #             print(cur_weapon)
+                #         if fight_knight in neg_inp:
+                #             print("You try to run away, but he's too quick! You have no choice but to fight.")
+                #             if battle(cur_weapon, evil_knight) == "You win!":
+                #                 print(f"You defeated the evil knight! Head back to the lobby to continue your adventure!\n")  ##add armor/shield? new weaopn?
+                #                 bat_token = True
+                #                 break
+                #             if battle(cur_weapon, evil_knight) == "You Lost!":
+                #                 print(f"You were defeated by the evil knight!\n")
+                #                 inventory.clear()
+                #                 cur_weapon.clear()
+                #                 cur_weapon.update(hands)
+                #                 bat_token = True
+                #                 break
+                #         if fight_knight in pos_inp:
+                #             if battle(cur_weapon, evil_knight) == "You win!":
+                #                 print(f"You defeated the evil knight! Head back to the lobby to continue your adventure!\n")  ##add armor/shield? new weaopn?
+                #                 bat_token = True
+                #                 break
+                #             if battle(cur_weapon, evil_knight) == "You Lost!":
+                #                 print(f"You were defeated by the evil knight!\n")
+                #                 inventory.clear()
+                #                 cur_weapon.clear()
+                #                 cur_weapon.update(hands)
+                #                 bat_token = True
+                #                 break
+                #         else:
+                #             print("Please choose, fight or run.")
+                #             continue
+                # elif key in inventory:
+                #     print("You continue on and start to follow the footprints down the dark hallway.")
+                #     while armory == False:
+                #         lock_door_inp = input(f"You come across a locked door. Do you want to try the rusty key to see if it will open it? Or go back to the hallway?\n").lower()
+                #         if lock_door_inp in chk_inv:
+                #             print(inventory)
+                #         if lock_door_inp in chk_wpn:
+                #             print(cur_weapon)
+                #         if lock_door_inp in neg_inp:
+                #             no_key = True
+                #             break
+                #         elif lock_door_inp in pos_inp:
+                #             print("You have come across an old armory!  It is mostly empty, but there is a valyrian steel sword hanging on the wall! ")
+                #             while True:
+                #                 armory_inp = input(f"Do you want to take this weapon?\n").lower()
+                #                 if armory_inp in chk_inv:
+                #                     print(inventory)
+                #                 if armory_inp in chk_wpn:
+                #                     print(cur_weapon)
+                #                 if armory_inp in neg_inp:
+                #                     print("This sword is too heavy anyway.")
+                #                     no_key = True
+                #                     armory = True
+                #                     break
+                #                 elif armory_inp in pos_inp:
+                #                     print("You now have a valyrian steel sword in your inventory.")
+                #                     cur_weapon.clear()
+                #                     cur_weapon.update(val_sword)
+                #                     no_key = True
+                #                     armory = True
+                #                     break
+                #                 else:
+                #                     print("Please choose, yes or no.")
+                #                     continue
+                #         else:
+                #             print("Please choose, yes or no.")
+                #             continue
         else:
             print("please choose, return or keep going.")
             continue
