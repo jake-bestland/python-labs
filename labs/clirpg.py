@@ -41,22 +41,22 @@ sword = range(4, 10)
 val_sword = range(9, 13)
 key = "rusty key"
 no_key = "no key"
-vic_token = "victory"
-loss_token = "defeat"
+vic_token = False
+loss_token = False
 hero = False
 l_path = False
-inventory = []
+armory = False
+inventory = []  ### maybe add weapon inventory(dict) / item inventory.
 inventory.append(hands)
 dragon = 10
 evil_knight = 5
 
 
-
 name = input("What is your name?: ")
 print(f"Hello {name.capitalize()}, welcome to the game world!")
 while hero == False:
-    if loss_token in inventory:
-        inventory.remove(loss_token)
+    if loss_token == True:
+        loss_token = False
     print("You're in the lobby and you see three doors.")
     path = input("Which door will you choose? The left, the middle, or the right?: ").lower()
     
@@ -115,18 +115,14 @@ while hero == False:
         if m_option in neg_inp:
             continue
         elif m_option in pos_inp:
-            while True:
-                if loss_token in inventory:
-                    break
-                if vic_token in inventory:
-                    break
-                if key not in inventory and no_key not in inventory: ##add no_key?
-                    print("As you enter the room, you notice on the table there is a small rusty key")
+            while loss_token == False or vic_token == False:
+                if key not in inventory and no_key not in inventory:
+                    print("As you enter the room, you notice that there is a small rusty key on the table")
                     key_opt = input(take_leav_inp).lower()
                     if key_opt in pos_inp:
                         inventory.append(key)  ##add note to inventory file
                         print("You now have a rusty key")
-                        continue #
+                        continue
                     elif key_opt in neg_inp:
                         print("It's probably nothing.")  ##add no_key to inventory?
                         inventory.append(no_key)  ##add note to inventory file
@@ -134,39 +130,39 @@ while hero == False:
                     else:
                         print("Please choose, take it or leave it.")
                 elif no_key in inventory:
-                    print("You continue down the hallway and it lead you to a dungeon, where you come across an evil knight!")  ###########finish this path
+                    print("You continue down the hallway and it lead you to a dungeon, where you come across an evil knight!")
                     while True:
                         fight_knight = input("Fight the knight or run away!? ").lower()
                         if fight_knight in neg_inp:
                             print("You try to run away, but he's too quick! You have no choice but to fight.")
                             if battle(inventory[0], evil_knight) == "You win!":
                                 print("You defeated the evil knight! Head back to the lobby to continue your adventure!")  ##add armor/shield? new weaopn?
-                                inventory.append(vic_token)
+                                vic_token = True
                                 break
                             if battle(inventory[0], evil_knight) == "You Lost!":
                                 print("You were defeated by the evil knight!")
                                 inventory.clear()
                                 inventory.append(hands)
-                                inventory.append(loss_token)
+                                loss_token = True
                                 break
                         if fight_knight in pos_inp:
                             if battle(inventory[0], evil_knight) == "You win!":
                                 print("You defeated the evil knight! Head back to the lobby to continue your adventure!")  ##add armor/shield? new weaopn?
-                                inventory.append(vic_token)
+                                vic_token = True
                                 break
                             if battle(inventory[0], evil_knight) == "You Lost!":
                                 print("You were defeated by the evil knight!")
                                 inventory.clear()
                                 inventory.append(hands)
-                                inventory.append(loss_token)
+                                loss_token = True
                                 break
                         else:
                             print("Please choose, fight or run.")
                             continue
                 elif key in inventory:
                     print("You follow the footprints down the dark hallway and come across a locked door.")
-                    while True:
-                        lock_door_inp = input("Do you want to try the rusty key to see if it will open the door? Or go back to the hallway? ").lower() ####fix this line
+                    while armory == False:
+                        lock_door_inp = input("Do you want to try the rusty key to see if it will open the door? Or go back to the hallway? ").lower()
                         if lock_door_inp in neg_inp:
                             inventory.append(no_key)
                             break
@@ -183,6 +179,7 @@ while hero == False:
                                     inventory.remove(inventory[0])
                                     inventory.insert(0, val_sword)
                                     inventory.append(no_key)
+                                    armory = True
                                     break
                                 else:
                                     print("Please choose, yes or no.")
