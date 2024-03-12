@@ -63,7 +63,7 @@ while game_over == False:
     if path in chk_wpn:
         print(cur_weapon)
     if path == "left" or path == "the left":
-        if l_path == True:
+        if cur_weapon == sword:
             print(f"You have already checked behind this door. Please choose a different door.\n")
             continue
         print("You have entered a seemingly empty room.")
@@ -180,7 +180,7 @@ while game_over == False:
                         if fight_knight in neg_inp:
                             print("You try to run away, but he's too quick! You have no choice but to fight.")
                             if battle(cur_weapon, evil_knight) == "You win!":
-                                print(f"You defeated the evil knight! You go over and check the door that they were guarding.\n")
+                                print(f"You defeated the evil knight! You go over and check the door that he was guarding.\n")
                                 bat_token = True
                                 while unlock == False:
                                     lock_door_inp = input(f"The door the evil knight was guarding is locked. Do you want to try the rusty key to see if it will open it? Or go back to the lobby?\n").lower()
@@ -231,7 +231,7 @@ while game_over == False:
                                 break
                         if fight_knight in pos_inp:
                             if battle(cur_weapon, evil_knight) == "You win!":
-                                print(f"You defeated the evil knight! You go over and check the door that they were guarding.\n")
+                                print(f"You defeated the evil knight! You go over and check the door that he was guarding.\n")
                                 bat_token = True
                                 while unlock == False:
                                     lock_door_inp = input(f"The door the evil knight was guarding is locked. Do you want to try the rusty key to see if it will open it? Or go back to the lobby?\n").lower()
