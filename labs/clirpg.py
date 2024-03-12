@@ -43,6 +43,7 @@ hands = {"hands": range(1, 2)}
 sword = {"dull sword": range(4, 10)}
 val_sword = {"valyrian steel sword": range(9, 13)}
 key = "rusty key"
+game_over = False
 hero = False
 l_path = False
 cur_weapon = {}
@@ -54,7 +55,7 @@ evil_knight = 5
 
 name = input("What is your name?: ")
 print(f"Hello {name.capitalize()}, welcome to the game world!\nYou must defeat the dragon to win the game! The dragon is strong, so try and find a weapon to defeat it!\nYou can check your inventory or current weapon by entering 'i' or 'w' at any time.\n")
-while hero == False:
+while game_over == False:
     print("You're in the lobby and you see three doors.")
     path = input(f"Which door will you choose? The left, the middle, or the right?:\n").lower()
     if path in chk_inv:
@@ -62,7 +63,7 @@ while hero == False:
     if path in chk_wpn:
         print(cur_weapon)
     if path == "left" or path == "the left":
-        if cur_weapon == sword:
+        if l_path == True:
             print(f"You have already checked behind this door. Please choose a different door.\n")
             continue
         print("You have entered a seemingly empty room.")
@@ -78,7 +79,7 @@ while hero == False:
                 print("You found a dull sword!")
                 while True:
                     if cur_weapon == val_sword:
-                        print("Would you like to replace your current weapon with this one?")
+                        print("You currently have a more powerful weaopn. Would you like to replace your current weapon anyway?")
                     take = input(take_leav_inp).lower()
                     if take in chk_inv:
                         print(inventory)
@@ -113,17 +114,19 @@ while hero == False:
             if r_option in chk_wpn:
                 print(cur_weapon)
             if r_option in neg_inp:
-                continue
+                break
             elif r_option in pos_inp:
                 if battle(cur_weapon, dragon) == "You win!":
                     print(f"You defeated the Dragon!\n")
+                    game_over = True
                     hero = True
                     break
                 if battle(cur_weapon, dragon) == "You Lost!":
                     inventory.clear()
                     cur_weapon.clear()
                     cur_weapon.update(hands)
-                    print(lose)
+                    print("The dragon was too powerful and defeated you! You manage to escape, but you lost everything you had!")
+                    # game_over = True
                     break
             else:
                 print("please choose, fight or run.")
@@ -243,4 +246,7 @@ while hero == False:
     else:
         print("please choose left, middle or right")
         continue
-print(win)
+if hero == True:
+    print(win)
+# else:
+#     print(lose)
