@@ -20,6 +20,13 @@
 # Implement some logic that decides whether or not your player can beat the opponent depending on what items they have in their inventory
 # Use the random module to add a multiplier to your battles, similar to a dice roll in a real game. This pseudo-random element can have an effect on whether your player wins or loses when battling an opponent.
 
+
+# Collect the name from your player
+# Check whether it meets the length requirements for the API call
+# Ping the Uzby API to create a new random name for your player,
+# using the length of their given name as input
+# Inform the player about their in-game name
+
 import random
 import requests
 
@@ -38,8 +45,6 @@ pos_inp = {"yes", "keep going", "go on", "continue", "take", "take it", "follow"
 neg_inp = {"no", "go back", "return", "nope", "leave it", "leave", "run away", "run", "head back", "back", "lobby", "n"}
 take_leav_inp = f"take it or leave it?:\n"
 dead_end = f"You head back to the lobby to continue on your adventure.\n"
-win = "congratulations!! You won the game!"
-lose = "Oh no!! the dragon was too powerful and ate you!  Game Over."
 hands = {"hands": range(1, 2)}
 sword = {"dull sword": range(4, 10)}
 val_sword = {"valyrian steel sword": range(9, 13)}
@@ -59,9 +64,14 @@ drag_name = requests.get(url).text
 ev_kngt_name = requests.get(url).text
 
 name = input("What is your name?: ")
-print(f"Hello {name.capitalize()}, welcome to the game world!\nYou must defeat the dragon to win the game! The dragon is strong, so try to find a weapon to defeat it!\nYou can check your inventory or current weapon by entering 'i' or 'w' at any time.\n")
+user_name_len = len(name)
+un_url = f"https://uzby.com/api.php?min={user_name_len}&max={user_name_len}"
+user_game_name = requests.get(un_url).text
+
+print(f"Hello {name.capitalize()}, welcome to the game world!  In this world you shall be called, {user_game_name}!\n{user_game_name}, you must defeat the dragon to win the game! The dragon is strong, so try to find a weapon to defeat it!\nYou can check your inventory or current weapon by entering 'i' or 'w' at any time.\n")
+
 while game_over == False:
-    print("You're in the lobby and you see three doors.")
+    print(f"{user_game_name}, you're in the lobby and you see three doors.")
     path = input(f"Which door will you choose? The left, the middle, or the right?:\n").lower()
     if path in chk_inv:
         print(inventory)
@@ -293,4 +303,4 @@ while game_over == False:
         print("please choose left, middle or right")
         continue
 if hero == True:
-    print(win)
+    print(f"congratulations {user_game_name}!! You won the game!")
