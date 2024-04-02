@@ -63,6 +63,10 @@ url = f"https://uzby.com/api.php?min={min_name_len}&max={max_name_len}"
 drag_name = requests.get(url).text
 ev_kngt_name = requests.get(url).text
 
+affirmation_url = "https://www.affirmations.dev"
+note = requests.get(affirmation_url).json()
+note1 = requests.get(affirmation_url).json()
+note2 = requests.get(affirmation_url).json()
 user_name_len = 0
 while not (user_name_len >= 2 and user_name_len <= 40):
     name = input("What is your name?: ")
@@ -70,6 +74,7 @@ while not (user_name_len >= 2 and user_name_len <= 40):
     
 un_url = f"https://uzby.com/api.php?min={user_name_len}&max={user_name_len}"
 user_game_name = requests.get(un_url).text
+
 
 print(f"Hello {name.capitalize()}, welcome to the game world!  In this world you shall be called, {user_game_name}!\n{user_game_name}, you must defeat the dragon to win the game! The dragon is strong, so try to find a weapon to defeat it!\nYou can check your inventory or current weapon by entering 'i' or 'w' at any time.\n")
 
@@ -84,7 +89,7 @@ while game_over == False:
         if cur_weapon == sword:
             print(f"You have already checked behind this door. Please choose a different door.\n")
             continue
-        print("You have entered a seemingly empty room.")
+        print(f"You have entered a seemingly empty room.  There is a note on the ground that reads:\n{note["affirmation"]}")
         while l_path == False:
             l_option = input(f"Do you want to look around, or head back to the lobby?\n").lower()
             if l_option in chk_inv:
@@ -169,8 +174,8 @@ while game_over == False:
         elif m_option in pos_inp:
             while bat_token == False:
                 if key not in inventory and no_key == False:
-                    print("As you enter the room, you notice that there is a small rusty key on the table")
-                    key_opt = input(take_leav_inp).lower()
+                    print(f"As you enter the room, you notice that there is a small rusty key on the table, with a note beside it.  The note reads:\n{note1["affirmation"]}")
+                    key_opt = input("Do you wish to take the key? ").lower()
                     if key_opt in chk_inv:
                         print(inventory)
                     if key_opt in chk_wpn:
@@ -213,7 +218,7 @@ while game_over == False:
                                             armory = True
                                             break
                                         if key in inventory:
-                                            print("You have come across an old armory!  It is mostly empty, but there is a valyrian steel sword hanging on the wall! ")
+                                            print(f"You have come across an old armory!  It is mostly empty, but there is a valyrian steel sword hanging on the wall!\nThere is a note next to the sword that reads:\n{note2["affirmation"]}")
                                             while True:
                                                 armory_inp = input(f"Do you want to take this weapon?\n").lower()
                                                 if armory_inp in chk_inv:
@@ -264,7 +269,7 @@ while game_over == False:
                                             armory = True
                                             break
                                         if key in inventory:
-                                            print("You have come across an old armory!  It is mostly empty, but there is a valyrian steel sword hanging on the wall! ")
+                                            print(f"You have come across an old armory!  It is mostly empty, but there is a valyrian steel sword hanging on the wall!\nThere is a note next to the sword that reads:\n{note2["affirmation"]}")
                                             while True:
                                                 armory_inp = input(f"Do you want to take this weapon?\n").lower()
                                                 if armory_inp in chk_inv:
