@@ -64,9 +64,9 @@ drag_name = requests.get(url).text
 ev_kngt_name = requests.get(url).text
 
 affirmation_url = "https://www.affirmations.dev"
-note = requests.get(affirmation_url).json()
-note1 = requests.get(affirmation_url).json()
-note2 = requests.get(affirmation_url).json()
+note = requests.get(affirmation_url).json()["affirmation"]
+note1 = requests.get(affirmation_url).json()["affirmation"]
+note2 = requests.get(affirmation_url).json()["affirmation"]
 user_name_len = 0
 while not (user_name_len >= 2 and user_name_len <= 40):
     name = input("What is your name?: ")
@@ -89,7 +89,7 @@ while game_over == False:
         if cur_weapon == sword:
             print(f"You have already checked behind this door. Please choose a different door.\n")
             continue
-        print(f"You have entered a seemingly empty room.  There is a note on the ground that reads:\n{note["affirmation"]}")
+        print(f"You have entered a seemingly empty room.  There is a note on the ground that reads:\n{note}")
         while l_path == False:
             l_option = input(f"Do you want to look around, or head back to the lobby?\n").lower()
             if l_option in chk_inv:
@@ -174,7 +174,7 @@ while game_over == False:
         elif m_option in pos_inp:
             while bat_token == False:
                 if key not in inventory and no_key == False:
-                    print(f"As you enter the room, you notice that there is a small rusty key on the table, with a note beside it.  The note reads:\n{note1["affirmation"]}")
+                    print(f"As you enter the room, you notice that there is a small rusty key on the table, with a note beside it.  The note reads:\n{note1}")
                     key_opt = input("Do you wish to take the key? ").lower()
                     if key_opt in chk_inv:
                         print(inventory)
@@ -218,7 +218,7 @@ while game_over == False:
                                             armory = True
                                             break
                                         if key in inventory:
-                                            print(f"You have come across an old armory!  It is mostly empty, but there is a valyrian steel sword hanging on the wall!\nThere is a note next to the sword that reads:\n{note2["affirmation"]}")
+                                            print(f"You have come across an old armory!  It is mostly empty, but there is a valyrian steel sword hanging on the wall!\nThere is a note next to the sword that reads:\n{note2}")
                                             while True:
                                                 armory_inp = input(f"Do you want to take this weapon?\n").lower()
                                                 if armory_inp in chk_inv:
@@ -269,7 +269,7 @@ while game_over == False:
                                             armory = True
                                             break
                                         if key in inventory:
-                                            print(f"You have come across an old armory!  It is mostly empty, but there is a valyrian steel sword hanging on the wall!\nThere is a note next to the sword that reads:\n{note2["affirmation"]}")
+                                            print(f"You have come across an old armory!  It is mostly empty, but there is a valyrian steel sword hanging on the wall!\nThere is a note next to the sword that reads:\n{note2}")
                                             while True:
                                                 armory_inp = input(f"Do you want to take this weapon?\n").lower()
                                                 if armory_inp in chk_inv:
