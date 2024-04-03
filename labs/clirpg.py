@@ -31,6 +31,14 @@ import random
 import requests
 
 def battle(weapon_range: dict[str, range], opponent: int) -> str:
+    """Determines who wins the battle based on the weapon the user uses, and its damage range,  against the number needed to defeat the opponent
+
+    Args:
+        weapon_range (dict[str, range]): a dictionary with the key being a string identifying the weapon and the value is a range of numbers respresenting how much damage it can produce.
+        opponent (int): a number that is assigned to an opponent that is needed to defeat it.
+    Returns:
+        str: returns a string letting user know whether they won or lost.
+    """
     for dmg in weapon_range.values():
         damage = random.choice(dmg)
     
