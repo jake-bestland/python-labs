@@ -111,11 +111,13 @@ With roasted potatoes echoing in my mind like a mantra, space inverted as the un
 But when I realised I was mistaken and that the best approach to vanquish the most evil of all was...
 '''
 word = ""
-
-for letter in story:
-    if letter != " ": #and letter.isalpha():
-        word += letter.lower()
-    if letter == " ":
-        if len(word) != 0:
-             print(word[1:] + word[0] + "ay" , end=" ")
-             word = ""
+for char in story:
+    if char != " " and (char.isalpha() or char == "'"):
+        word += char.lower()
+        continue
+                     
+    elif len(word) != 0:
+        print(word[1:] + word[0] + "ay" + char , end="")
+        word = ""
+    else:
+        print(char, end = "")
